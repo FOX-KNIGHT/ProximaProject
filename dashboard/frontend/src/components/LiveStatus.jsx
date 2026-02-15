@@ -1,121 +1,197 @@
 import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Thermometer,
+  CloudSun,
+  Users,
+  MapPin,
+  Power,
+  ChevronUp,
+  ChevronDown,
+  RefreshCw,
+  Wind,
+  Activity,
+  Cpu,
+  Zap,
+  ShieldPulse
+} from "lucide-react";
 import "./LiveStatus.css";
 
+const SolarisStat = ({ title, value, icon: Icon, delay, trend, color = "var(--solaris-amber)" }) => (
+  <motion.div
+    className="solaris-stat-box glass-v3 interactive-card"
+    initial={{ opacity: 0, y: 15 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+  >
+    <div className="stat-row">
+      <div className="stat-label">
+        <Icon size={14} style={{ color }} />
+        <span>{title}</span>
+      </div>
+      {trend && (
+        <div className={`stat-trend ${trend > 0 ? "up" : "down"}`}>
+          {trend > 0 ? "+" : ""}{trend}%
+        </div>
+      )}
+    </div>
+    <div className="stat-value">{value}</div>
+    <div className="stat-visual">
+      <div className="stat-bar-bg">
+        <motion.div
+          className="stat-bar-fill"
+          style={{ background: color }}
+          initial={{ width: 0 }}
+          animate={{ width: "65%" }}
+          transition={{ delay: delay + 0.2, duration: 1 }}
+        />
+      </div>
+    </div>
+  </motion.div>
+);
 
 function LiveStatus() {
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [setTemp, setSetTemp] = useState(null);
-  const [deviceOn, setDeviceOn] = useState(false);
+  const [setTemp, setSetTemp] = useState(24);
+  const [isSyncing, setIsSyncing] = useState(false);
 
-
+  const fetchStatus = async () => {
+    setIsSyncing(true);
+    try {
+      const res = await fetch("http://localhost:5000/api/status");
+      const data = await res.json();
+      setStatus(data);
+      setSetTemp(data.setTemperature);
+    } catch (err) {
+      console.error("Telemetry link failure:", err);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+        setIsSyncing(false);
+      }, 800);
+    }
+  };
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/status")
-      .then((res) => res.json())
-      .then((data) => {
-        setStatus(data);
-        setSetTemp(data.setTemperature); // initialise controllable temp
-        setDeviceOn(data.deviceStatus === "ON"); // for on and off 
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching status:", err);
-        setLoading(false);
-      });
+    fetchStatus();
   }, []);
-  const increaseTemp = () => {
-      setSetTemp((prev) => prev + 1);
-    };
 
-    const decreaseTemp = () => {
-      setSetTemp((prev) => prev - 1);
-    };
-
-    const turnOnDevice = () => {
-      setDeviceOn(true);
-    };
-
-    const turnOffDevice = () => {
-      setDeviceOn(false);
-    };
-
-
-  if (loading) {
-    return <p>Loading live status...</p>;
-  }
-
-  if (!status) {
-    return <p>Failed to load status</p>;
-  }
+  if (loading && !status) return (
+    <div className="solaris-loader">
+      <Activity className="animate-spin text-amber-500" size={32} />
+      <span>INITIALIZING TELEMETRY...</span>
+    </div>
+  );
 
   return (
-  <div className="live-status">
-    <h2>Live System Status</h2>
-
-    <div className="status-cards">
-      <div className="status-card">
-        <h4>Room</h4>
-        <p>{status.room}</p>
-      </div>
-
-      <div className="status-card">
-        <h4>Occupancy</h4>
-        <p>{status.occupancy}</p>
-      </div>
-
-      <div className="status-card">
-        <h4>Indoor Temperature</h4>
-        <p>{status.indoorTemperature} °C</p>
-      </div>
-
-      <div className="status-card">
-        <h4>Outdoor Temperature</h4>
-        <p>{status.outdoorTemperature} °C</p>
-      </div>
-
-      <div className="status-card-ds">
-        <h4>Device Status</h4>
-        <p className="ds">{deviceOn ? "ON" : "OFF"}</p>
-      </div>
-
-
-      <div className="control-panel">
-        <div className="temp-controller">
-          <h4>Set Temperature</h4>
-
-          <button className="arrow" onClick={increaseTemp}>▲</button>
-
-          <div className="temp-value">
-            {setTemp} °C
+    <div className="solaris-dashboard">
+      <div className="dashboard-grid">
+        {/* Core Drive - Central Interface */}
+        <motion.div
+          className="core-drive-panel glass-v3-heavy span-2-2"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="panel-header">
+            <div className="panel-tag">
+              <Zap size={12} />
+              <span>CORE DRIVE ALPHA</span>
+            </div>
+            <button className={`sync-btn ${isSyncing ? "syncing" : ""}`} onClick={fetchStatus}>
+              <RefreshCw size={16} />
+            </button>
           </div>
 
-          <button className="arrow" onClick={decreaseTemp}>▼</button>
+          <div className="core-visualization">
+            <div className="drive-rings">
+              <div className="ring ring-1" />
+              <div className="ring ring-2" />
+              <div className="ring ring-3" />
+            </div>
+            <div className="temp-display">
+              <div className="temp-label">OPTIMAL TARGET</div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={setTemp}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="temp-number"
+                >
+                  {setTemp}<span>°C</span>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          <div className="drive-controls">
+            <div className="stepper-group">
+              <button onClick={() => setSetTemp(t => t - 1)} className="control-btn"><ChevronDown size={20} /></button>
+              <div className="v-line" />
+              <button onClick={() => setSetTemp(t => t + 1)} className="control-btn"><ChevronUp size={20} /></button>
+            </div>
+            <button className="ignition-btn">
+              <Power size={18} />
+              <span>ENGAGE CORE</span>
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Vital Metrics Range */}
+        <div className="metrics-column span-2-2">
+          <div className="metrics-header">
+            <Cpu size={16} />
+            <span>SUBSYSTEM METRICS</span>
+          </div>
+          <div className="metrics-subgrid">
+            <SolarisStat
+              title="Ambient Node"
+              value={`${status?.indoorTemperature || "--"}°C`}
+              icon={Thermometer}
+              delay={0.1}
+              trend={1.2}
+            />
+            <SolarisStat
+              title="Neural Load"
+              value={status?.occupancy || "None"}
+              icon={Users}
+              delay={0.2}
+              color="var(--solaris-blue)"
+            />
+            <SolarisStat
+              title="External Flux"
+              value={`${status?.outdoorTemperature || "--"}°C`}
+              icon={CloudSun}
+              delay={0.3}
+              trend={-2.4}
+              color="var(--solaris-emerald)"
+            />
+            <SolarisStat
+              title="Shield Level"
+              value="98.2%"
+              icon={ShieldPulse}
+              delay={0.4}
+              color="var(--solaris-amber)"
+            />
+          </div>
+
+          <div className="location-footer glass-v3">
+            <div className="loc-info">
+              <MapPin size={16} className="text-amber-500" />
+              <div>
+                <div className="loc-name">{status?.room}</div>
+                <div className="loc-meta">PROXIMA NODE · PROTOCOL ALPHA</div>
+              </div>
+            </div>
+            <div className="system-tag">STABLE</div>
+          </div>
         </div>
-
-        <div className="power-controls">
-          <button
-            onClick={turnOnDevice}
-            disabled={deviceOn}
-          >
-            Turn ON
-          </button>
-
-          <button
-            className="off"
-            onClick={turnOffDevice}
-            disabled={!deviceOn}
-          >
-            Turn OFF
-          </button>
-        </div>
-
       </div>
     </div>
-  </div>
-
-);
-
+  );
 }
 
 export default LiveStatus;
+

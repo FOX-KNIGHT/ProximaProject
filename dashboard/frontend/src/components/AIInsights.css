@@ -1,149 +1,253 @@
-.ai-insights {
-  font-size: 1.5em;
+.solaris-neural-view {
+  width: 100%;
+}
+
+.neural-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* Neural Engine Panel */
+.neural-engine-panel {
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  position: relative;
+  min-height: 400px;
 }
 
-/* Top decision card */
-.ai-decision {
-  background-color: #ecfeff;
-  border-left: 6px solid #06b6d4;
-  padding: 16px;
-  border-radius: 8px;
+.panel-tag.blue {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: var(--solaris-blue);
 }
 
-.ai-decision h3 {
-  margin: 0 0 8px 0;
-  color: #0f172a;
+.panel-tag.emerald {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--solaris-emerald);
 }
 
-.ai-decision p {
-  margin: 4px 0;
+.accuracy-pill {
+  padding: 6px 14px;
+  background: var(--bg-void);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-full);
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: flex;
+  gap: 6px;
 }
 
-/* Grid for metrics */
-.ai-metrics {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
+.accuracy-pill .val {
+  color: var(--solaris-emerald);
 }
 
-.metric-card {
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 16px;
+.core-logic-box {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  background: var(--bg-void);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  margin-top: 32px;
 }
 
-.metric-card h4 {
-  margin: 0 0 8px 0;
-  color: #374151;
+.logic-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
 }
 
-.metric-card p {
-  margin: 10px 0;
-  font-size: 18px;
+.logic-desc {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-vibrant);
+  line-height: 1.4;
 }
 
-/* Highlight numbers */
-.metric-value {
-  font-size: 22px;
-  font-weight: bold;
-  color: #111827;
-}
-/* Usage chart */
-.usage-chart {
-  margin-top: 10px;
-
-}
-
-.usage-row {
-  
+.neural-viz-container {
+  flex: 1;
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content: center;
+  position: relative;
+  margin-top: 24px;
 }
 
-.usage-label {
-  width: 90px;
-  font-size: 13px;
-  color: #065f46;
-}
-
-.usage-bar-container {
-  flex: 1;
-  background-color: #dcfce7;
-  border-radius: 6px;
-  overflow: hidden;
-  height: 14px;
-}
-
-.usage-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #16a34a, #22c55e);
-  width: 0;
-  animation: growBar 1.2s ease-out forwards;
-}
-
-.low .usage-bar {
-  background: linear-gradient(90deg, #4ade80, #86efac);
-}
-
-@keyframes growBar {
-  from {
-    width: 0;
-  }
-}
-/* Donut chart container */
-.donut-container {
-  display: flex;
-  gap: 16px;
-}
-
-.donut-card {
-  font-size: 1.5em;
-  flex: 1;
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 16px;
+.target-sync-value {
   text-align: center;
+  z-index: 5;
 }
 
-/* Donut chart */
-.donut {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin: 12px auto;
-  background: conic-gradient(
-    var(--color) var(--value),
-    #e5e7eb 0
-  );
+.v-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--solaris-blue);
+  letter-spacing: 0.2em;
+}
+
+.v-number {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--text-vibrant);
+}
+
+/* Metrics Side Panel */
+.metrics-side-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  gap: 32px;
+}
+
+.load-tracks {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.load-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.status.peak {
+  color: #f43f5e;
+}
+
+.status.nominal {
+  color: var(--solaris-emerald);
+}
+
+.row-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+}
+
+.row-track .fill {
+  height: 100%;
+  background: var(--solaris-blue);
+  border-radius: 2px;
+}
+
+.metrics-triad {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.solaris-neural-card {
+  padding: 20px;
+}
+
+.card-top {
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.donut-inner {
-  width: 80px;
-  height: 80px;
-  background-color: white;
-  border-radius: 50%;
-  font-size: 16px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Usage section larger */
-.usage-large {
-  margin-top: 10px;
-  font-size: 1.5em;
-}
-
-.usage-large h4 {
+  gap: 10px;
   margin-bottom: 12px;
+}
+
+.card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.card-val {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-vibrant);
+}
+
+.card-unit {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-left: 6px;
+}
+
+/* Projection Footer */
+.projection-footer {
+  padding: 24px 32px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.proj-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.proj-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-vibrant);
+}
+
+.proj-meta {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.proj-stats {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.p-stat .p-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.p-stat .p-val {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.v-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-glass);
+}
+
+.span-full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1280px) {
+  .neural-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .span-2-2 {
+    grid-column: span 1;
+  }
 }

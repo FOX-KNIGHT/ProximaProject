@@ -1,5 +1,199 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Solaris Professional - Advanced High-Tech Palette */
+  --solaris-void: #02040a;
+  --solaris-slate: #0d1117;
+  --solaris-amber: #f59e0b;
+  --solaris-amber-glow: rgba(245, 158, 11, 0.4);
+  --solaris-blue: #3b82f6;
+  --solaris-blue-glow: rgba(59, 130, 246, 0.3);
+  --solaris-emerald: #10b981;
+
+  /* Functional Semantic Colors */
+  --bg-void: var(--solaris-void);
+  --bg-surface: var(--solaris-slate);
+  --bg-glass: rgba(13, 17, 23, 0.7);
+  --bg-glass-heavy: rgba(2, 4, 10, 0.85);
+
+  --accent-primary: var(--solaris-amber);
+  --accent-secondary: var(--solaris-blue);
+
+  --text-vibrant: #ffffff;
+  --text-standard: #c9d1d9;
+  --text-dim: #8b949e;
+  --text-muted: #484f58;
+
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --border-glass-bright: rgba(255, 255, 255, 0.2);
+
+  --radius-full: 100px;
+  --radius-xl: 32px;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+
+  --ease-professional: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.3s var(--ease-professional);
+  --transition-normal: all 0.5s var(--ease-professional);
+  --transition-slow: all 0.8s var(--ease-professional);
+
+  --shadow-luxe: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+}
+
+* {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #595A58;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-void);
+  color: var(--text-standard);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-vibrant);
+  letter-spacing: -0.02em;
+}
+
+/* Solaris Glassmorphism v3 */
+.glass-v3 {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-luxe);
+}
+
+.glass-v3-heavy {
+  background: var(--bg-glass-heavy);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-glass-bright);
+}
+
+.interactive-card {
+  transition: var(--transition-normal);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.interactive-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--solaris-amber);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Animations & Effects */
+@keyframes pulse-subtle {
+  0% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 4s infinite ease-in-out;
+}
+
+@keyframes float-professional {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float-professional 6s infinite ease-in-out;
+}
+
+/* Navigation Interface Elements */
+.nav-pill {
+  padding: 8px 20px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.nav-pill:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-vibrant);
+}
+
+.nav-pill.active {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--solaris-amber);
+}
+
+/* Professional Utilities */
+.text-gradient-amber {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glow-amber {
+  box-shadow: 0 0 20px var(--solaris-amber-glow);
+}
+
+.divider-h {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-glass), transparent);
+  width: 100%;
+  margin: 20px 0;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
 }
