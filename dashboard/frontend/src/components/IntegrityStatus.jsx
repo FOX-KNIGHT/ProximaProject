@@ -5,12 +5,11 @@ import {
     Clock,
     Activity,
     Server,
-    ChevronRight,
-    Database,
-    Lock,
-    AlertCircle,
+    Zap,
     Cpu,
-    ShieldAlert
+    ShieldAlert,
+    Network,
+    Lock
 } from "lucide-react";
 import "./IntegrityStatus.css";
 
@@ -23,15 +22,12 @@ const SolarisNode = ({ id, status, latency, delay }) => (
     >
         <div className="node-top">
             <div className="node-id-tag">
-                <Server size={12} />
-                <span>{id}</span>
+                <div className={`node-dot ${status === 'Stable' ? 'stable' : 'warning'}`} />
+                <span>Node {id.split('-')[1]}</span>
             </div>
-            <div className={`node-dot ${status === 'Stable' ? 'stable' : 'warning'}`} />
+            <span className="n-latency">{latency}</span>
         </div>
-        <div className="node-main">
-            <div className="n-status">{status}</div>
-            <div className="n-latency">{latency} LATENCY</div>
-        </div>
+        <div className="n-status">{status}</div>
     </motion.div>
 );
 
@@ -40,76 +36,78 @@ const IntegrityStatus = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/integrity")
-            .then(res => res.json())
-            .then(json => {
-                setData(json);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error("Integrity Fetch Error:", err);
-                setLoading(false);
-            });
+        const fetchIntegrityData = async () => {
+            try {
+                const res = await fetch("http://localhost:5000/api/integrity");
+                const integrityData = await res.json();
+                setData(integrityData);
+            } catch (err) {
+                console.error("Integrity link failure:", err);
+            } finally {
+                setTimeout(() => setLoading(false), 800);
+            }
+        };
+        fetchIntegrityData();
     }, []);
 
     if (loading) return (
         <div className="solaris-loader">
-            <ShieldCheck className="animate-spin text-emerald-500" size={32} />
-            <span>VERIFYING SYSTEM PROTOCOLS...</span>
+            <ShieldCheck className="animate-pulse" size={32} />
+            <span className="loader-text">Verifying System Shield...</span>
         </div>
     );
 
     return (
         <div className="solaris-integrity-view">
             <div className="integrity-grid">
-                {/* System Sovereignty Core */}
+                {/* Sovereignty Panel */}
                 <motion.div
-                    className="sovereignty-panel glass-v3-heavy span-2-2"
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
+                    className="sovereignty-panel glass-v3 span-2-2"
+                    initial={{ opacity: 0, x: -15 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
                 >
                     <div className="panel-header">
-                        <div className="panel-tag emerald">
-                            <Lock size={12} />
-                            <span>SYSTEM SOVEREIGNTY</span>
+                        <div className="panel-tag blue">
+                            <Lock size={10} />
+                            <span>System Sovereignty</span>
                         </div>
                         <div className={`security-status ${data?.securityStatus === 'Shielded' ? 'shielded' : 'alert'}`}>
-                            {data?.securityStatus === 'Shielded' ? <ShieldCheck size={14} /> : <ShieldAlert size={14} />}
+                            {data?.securityStatus === 'Shielded' ? <Lock size={10} /> : <ShieldAlert size={10} />}
                             <span>{data?.securityStatus}</span>
                         </div>
                     </div>
 
                     <div className="health-visual-area">
                         <div className="index-circle">
-                            <svg viewBox="0 0 100 100">
-                                <circle cx="50" cy="50" r="45" className="track" />
+                            <svg width="260" height="260">
+                                <circle className="track" cx="130" cy="130" r="120" />
                                 <motion.circle
-                                    cx="50" cy="50" r="45"
                                     className="fill"
-                                    strokeLinecap="round"
-                                    initial={{ pathLength: 0 }}
-                                    animate={{ pathLength: data?.healthScore || 0.85 }}
-                                    transition={{ duration: 2, ease: "easeOut" }}
+                                    cx="130"
+                                    cy="130"
+                                    r="120"
+                                    initial={{ strokeDashoffset: 754 }}
+                                    animate={{ strokeDashoffset: 754 - (754 * (data?.healthScore || 0) / 100) }}
+                                    transition={{ duration: 1.5, ease: "easeOut" }}
+                                    style={{ strokeDasharray: 754 }}
                                 />
                             </svg>
                             <div className="index-content">
-                                <div className="i-val">{Math.round((data?.healthScore || 0.85) * 100)}%</div>
-                                <div className="i-label">SHIELD INDEX</div>
+                                <div className="i-val">{data?.healthScore}%</div>
+                                <div className="i-label">Health Index</div>
                             </div>
                         </div>
                     </div>
 
                     <div className="integrity-footer">
                         <div className="uptime-group">
-                            <Clock size={16} className="text-blue-500" />
-                            <div className="u-info">
-                                <div className="u-label">CONTINUOUS UPTIME</div>
-                                <div className="u-val">{data?.uptime}</div>
-                            </div>
+                            <span className="u-label">Continuous Uptime</span>
+                            <span className="u-val">{data?.uptime}</span>
                         </div>
                         <button className="audit-btn">
-                            DEEP SCAN <ChevronRight size={16} />
+                            <Activity size={12} />
+                            <span>Full Scan</span>
                         </button>
                     </div>
                 </motion.div>
@@ -118,10 +116,11 @@ const IntegrityStatus = () => {
                 <div className="node-array-panel span-2-2">
                     <div className="panel-header">
                         <div className="panel-tag blue">
-                            <Cpu size={12} />
-                            <span>NODE ARRAY CLUSTER</span>
+                            <Network size={10} />
+                            <span>Active Node Array</span>
                         </div>
                     </div>
+
                     <div className="nodes-subgrid">
                         {(data?.nodeHealth || []).map((node, i) => (
                             <SolarisNode
@@ -134,19 +133,24 @@ const IntegrityStatus = () => {
                         ))}
                     </div>
 
-                    <div className="latency-widget glass-v3">
+                    <motion.div
+                        className="latency-widget glass-v3"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                    >
                         <div className="w-header">
-                            <Database size={16} className="text-purple-500" />
-                            <span>SYNAPTIC LATENCY</span>
+                            <Cpu size={14} />
+                            <span>Neural Sync Speed</span>
                         </div>
                         <div className="w-main">
-                            <div className="w-val">0.45ms</div>
+                            <div className="w-val">2.4ms</div>
                             <div className="w-status">
-                                <Activity size={10} />
-                                <span>SYNCED</span>
+                                <Zap size={10} />
+                                <span>ULTRA-FAST</span>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import "./AIInsights.css";
 
-const SolarisNeuralMetric = ({ title, value, unit, icon: Icon, delay, color = "var(--solaris-blue)" }) => (
+const SolarisNeuralMetric = ({ title, value, unit, icon: Icon, delay, color = "var(--proxima-violet)" }) => (
   <motion.div
     className="solaris-neural-card glass-v3 interactive-card"
     initial={{ opacity: 0, x: -10 }}
@@ -21,8 +21,8 @@ const SolarisNeuralMetric = ({ title, value, unit, icon: Icon, delay, color = "v
     transition={{ delay, duration: 0.5 }}
   >
     <div className="card-top">
-      <div className="card-icon" style={{ background: color + "22", color }}>
-        <Icon size={16} />
+      <div className="card-icon" style={{ background: color + "15", color }}>
+        <Icon size={14} />
       </div>
       <span className="card-label">{title}</span>
     </div>
@@ -54,8 +54,8 @@ function AIInsights() {
 
   if (loading) return (
     <div className="solaris-loader">
-      <BrainCircuit className="animate-pulse text-blue-500" size={32} />
-      <span>SYNCHRONIZING NEURAL ARRAYS...</span>
+      <BrainCircuit className="animate-pulse" size={32} />
+      <span className="loader-text">Synchronizing Neural Arrays...</span>
     </div>
   );
 
@@ -64,36 +64,35 @@ function AIInsights() {
       <div className="neural-grid">
         {/* Neural Engine Core */}
         <motion.div
-          className="neural-engine-panel glass-v3-heavy span-2-2"
+          className="neural-engine-panel glass-v3 span-2-2"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           <div className="panel-header">
             <div className="panel-tag blue">
-              <BrainCircuit size={12} />
-              <span>NEURAL CORE ALPHA</span>
+              <BrainCircuit size={10} />
+              <span>Neural Alpha • Subprocess</span>
             </div>
             <div className="accuracy-pill">
-              <span>ACCURACY:</span>
+              <span>Confidence:</span>
               <span className="val">{Math.round(insights?.confidenceScore * 100)}%</span>
             </div>
           </div>
 
           <div className="core-logic-box">
             <div className="logic-icon">
-              <Lightbulb size={24} className="text-amber-500" />
+              <Lightbulb size={20} className="text-violet-400" />
             </div>
             <div className="logic-content">
-              <h3 className="logic-title">SYSTEM OPTIMIZATION RECOMMENDATION</h3>
+              <h3 className="logic-title">Automated Optimization Logic</h3>
               <p className="logic-desc">{insights?.aiDecision}</p>
             </div>
           </div>
 
           <div className="neural-viz-container">
-            <div className="neural-nodes-sim" />
             <div className="target-sync-value">
-              <div className="v-label">TARGET SYNC</div>
+              <div className="v-label">Optimal Cycle</div>
               <div className="v-number">{insights?.recommendedTemperature}°C</div>
             </div>
           </div>
@@ -103,8 +102,8 @@ function AIInsights() {
         <div className="metrics-side-panel span-2-2">
           <div className="panel-header">
             <div className="panel-tag emerald">
-              <Activity size={12} />
-              <span>LOAD TELEMETRY</span>
+              <Activity size={10} />
+              <span>Load Telemetry</span>
             </div>
           </div>
 
@@ -121,7 +120,7 @@ function AIInsights() {
                   <motion.div
                     className="fill"
                     initial={{ width: 0 }}
-                    animate={{ width: idx < (insights?.usagePattern?.peakHours?.length || 0) ? "90%" : "35%" }}
+                    animate={{ width: idx < (insights?.usagePattern?.peakHours?.length || 0) ? "85%" : "30%" }}
                     transition={{ delay: 0.3, duration: 1 }}
                   />
                 </div>
@@ -131,20 +130,20 @@ function AIInsights() {
 
           <div className="metrics-triad">
             <SolarisNeuralMetric
-              title="Privacy Guard"
+              title="Privacy Layer"
               value={insights?.carbonReduction?.co2SavedKgToday || 0}
               unit="KG"
               icon={Lock}
               delay={0.1}
-              color="var(--solaris-emerald)"
+              color="var(--proxima-emerald)"
             />
             <SolarisNeuralMetric
-              title="Yield Optimized"
+              title="Yield Factor"
               value={insights?.energySavings?.today?.costSavedINR || 0}
               unit="INR"
               icon={Zap}
               delay={0.2}
-              color="var(--solaris-amber)"
+              color="var(--proxima-amber)"
             />
           </div>
         </div>
@@ -158,22 +157,22 @@ function AIInsights() {
         >
           <div className="proj-info">
             <div className="proj-icon">
-              <BarChart3 size={20} />
+              <BarChart3 size={18} />
             </div>
             <div>
-              <div className="proj-title">LUNAR CYCLE PROJECTION</div>
-              <div className="proj-meta">SYNAPTIC FORECAST · PROTOCOL 2.4</div>
+              <div className="proj-title">LUNAR PROJECTION CYCLE</div>
+              <div className="proj-meta">Synaptic Forecast System • Protocol 4.2</div>
             </div>
           </div>
           <div className="proj-stats">
             <div className="p-stat">
-              <div className="p-label">ACCUMULATED CREDIT</div>
-              <div className="p-val text-amber-500">₹{insights?.energySavings?.thisMonth?.costSavedINR || 0}</div>
+              <div className="p-label">Accumulated Credit</div>
+              <div className="p-val text-cyan-400">₹{insights?.energySavings?.thisMonth?.costSavedINR || 0}</div>
             </div>
             <div className="v-divider" />
             <div className="p-stat">
-              <div className="p-label">EMISSION OFFSET</div>
-              <div className="p-val text-blue-500">{insights?.carbonReduction?.co2SavedKgMonth || 0} KG</div>
+              <div className="p-label">Emission Offset</div>
+              <div className="p-val text-violet-400">{insights?.carbonReduction?.co2SavedKgMonth || 0} KG</div>
             </div>
           </div>
         </motion.div>

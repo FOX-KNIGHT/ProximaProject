@@ -9,24 +9,23 @@ import {
   ChevronUp,
   ChevronDown,
   RefreshCw,
-  Wind,
   Activity,
   Cpu,
   Zap,
-  ShieldPlus
+  ShieldCheck
 } from "lucide-react";
 import "./LiveStatus.css";
 
-const SolarisStat = ({ title, value, icon: Icon, delay, trend, color = "var(--solaris-amber)" }) => (
+const SolarisStat = ({ title, value, icon: Icon, delay, trend, color = "var(--proxima-cyan)" }) => (
   <motion.div
     className="solaris-stat-box glass-v3 interactive-card"
-    initial={{ opacity: 0, y: 15 }}
+    initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
   >
     <div className="stat-row">
       <div className="stat-label">
-        <Icon size={14} style={{ color }} />
+        <Icon size={12} style={{ color }} />
         <span>{title}</span>
       </div>
       {trend && (
@@ -40,9 +39,9 @@ const SolarisStat = ({ title, value, icon: Icon, delay, trend, color = "var(--so
       <div className="stat-bar-bg">
         <motion.div
           className="stat-bar-fill"
-          style={{ background: color }}
+          style={{ background: color, color }}
           initial={{ width: 0 }}
-          animate={{ width: "65%" }}
+          animate={{ width: "70%" }}
           transition={{ delay: delay + 0.2, duration: 1 }}
         />
       </div>
@@ -79,28 +78,28 @@ function LiveStatus() {
 
   if (loading && !status) return (
     <div className="solaris-loader">
-      <Activity className="animate-spin text-amber-500" size={32} />
-      <span>INITIALIZING TELEMETRY...</span>
+      <Activity className="animate-spin" size={32} />
+      <span className="loader-text">Initializing Proxima Link...</span>
     </div>
   );
 
   return (
     <div className="solaris-dashboard">
       <div className="dashboard-grid">
-        {/* Core Drive - Central Interface */}
+        {/* Core Drive - Quantum Reactor Interface */}
         <motion.div
-          className="core-drive-panel glass-v3-heavy span-2-2"
+          className="core-drive-panel glass-v3 span-2-2"
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           <div className="panel-header">
             <div className="panel-tag">
-              <Zap size={12} />
-              <span>CORE DRIVE ALPHA</span>
+              <Zap size={10} />
+              <span>Quantum Reactor • Alpha</span>
             </div>
             <button className={`sync-btn ${isSyncing ? "syncing" : ""}`} onClick={fetchStatus}>
-              <RefreshCw size={16} />
+              <RefreshCw size={14} />
             </button>
           </div>
 
@@ -111,7 +110,7 @@ function LiveStatus() {
               <div className="ring ring-3" />
             </div>
             <div className="temp-display">
-              <div className="temp-label">OPTIMAL TARGET</div>
+              <div className="temp-label">Target Resonance</div>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={setTemp}
@@ -128,13 +127,13 @@ function LiveStatus() {
 
           <div className="drive-controls">
             <div className="stepper-group">
-              <button onClick={() => setSetTemp(t => t - 1)} className="control-btn"><ChevronDown size={20} /></button>
-              <div className="v-line" />
-              <button onClick={() => setSetTemp(t => t + 1)} className="control-btn"><ChevronUp size={20} /></button>
+              <button onClick={() => setSetTemp(t => t - 1)} className="control-btn hover:text-red-400 Transition-all"><ChevronDown size={18} /></button>
+              <div className="v-divider" />
+              <button onClick={() => setSetTemp(t => t + 1)} className="control-btn hover:text-cyan-400 Transition-all"><ChevronUp size={18} /></button>
             </div>
             <button className="ignition-btn">
-              <Power size={18} />
-              <span>ENGAGE CORE</span>
+              <Power size={16} />
+              <span>Engage Reactor</span>
             </button>
           </div>
         </motion.div>
@@ -142,8 +141,8 @@ function LiveStatus() {
         {/* Vital Metrics Range */}
         <div className="metrics-column span-2-2">
           <div className="metrics-header">
-            <Cpu size={16} />
-            <span>SUBSYSTEM METRICS</span>
+            <Cpu size={14} />
+            <span>Telemetry Streams</span>
           </div>
           <div className="metrics-subgrid">
             <SolarisStat
@@ -158,7 +157,7 @@ function LiveStatus() {
               value={status?.occupancy || "None"}
               icon={Users}
               delay={0.2}
-              color="var(--solaris-blue)"
+              color="var(--proxima-violet)"
             />
             <SolarisStat
               title="External Flux"
@@ -166,23 +165,23 @@ function LiveStatus() {
               icon={CloudSun}
               delay={0.3}
               trend={-2.4}
-              color="var(--solaris-emerald)"
+              color="var(--proxima-emerald)"
             />
             <SolarisStat
               title="Shield Level"
               value="98.2%"
-              icon={ShieldPlus}
+              icon={ShieldCheck}
               delay={0.4}
-              color="var(--solaris-amber)"
+              color="var(--proxima-amber)"
             />
           </div>
 
           <div className="location-footer glass-v3">
             <div className="loc-info">
-              <MapPin size={16} className="text-amber-500" />
+              <MapPin size={16} className="text-cyan-500" />
               <div>
                 <div className="loc-name">{status?.room}</div>
-                <div className="loc-meta">PROXIMA NODE · PROTOCOL ALPHA</div>
+                <div className="loc-meta">Proxima Global Grid • Secure</div>
               </div>
             </div>
             <div className="system-tag">STABLE</div>

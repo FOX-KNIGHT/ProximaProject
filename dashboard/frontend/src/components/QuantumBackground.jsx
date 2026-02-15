@@ -9,7 +9,7 @@ const SolarisFlux = () => {
     delay: Math.random() * -20,
     x: Math.random() * 100,
     y: Math.random() * 100,
-    color: i % 2 === 0 ? "var(--solaris-amber-glow)" : "var(--solaris-blue-glow)"
+    color: i % 2 === 0 ? "var(--proxima-amber-glow)" : "var(--proxima-cyan-glow)"
   })), []);
 
   return (
@@ -85,14 +85,14 @@ const SolarisFlux = () => {
         .leak-1 {
           top: -10%;
           left: -10%;
-          background: var(--solaris-amber);
+          background: var(--proxima-amber);
           animation: leak-drift 25s infinite alternate ease-in-out;
         }
         
         .leak-2 {
           bottom: -10%;
           right: -10%;
-          background: var(--solaris-blue);
+          background: var(--proxima-cyan);
           animation: leak-drift 30s infinite alternate-reverse ease-in-out;
         }
 
