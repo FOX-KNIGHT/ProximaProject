@@ -13,7 +13,7 @@ import {
   Activity,
   Cpu,
   Zap,
-  ShieldPulse
+  ShieldPlus
 } from "lucide-react";
 import "./LiveStatus.css";
 
@@ -171,7 +171,7 @@ function LiveStatus() {
             <SolarisStat
               title="Shield Level"
               value="98.2%"
-              icon={ShieldPulse}
+              icon={ShieldPlus}
               delay={0.4}
               color="var(--solaris-amber)"
             />
