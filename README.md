@@ -1,29 +1,86 @@
-# 🌌 Proxima: Intelligent Occupancy & Grid Monitoring
+# 🌌 Proxima
 
-A futuristic, microservices-based dashboard and AI inference engine designed for real-time spatial occupancy detection, grid telemetry, and system integrity monitoring. Proxima combines a hyper-modern React interface with a high-performance Python/YOLOv8 vision backend.
+> "See what machines see. Understand what systems feel."
 
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![YOLOv8](https://img.shields.io/badge/AI-YOLOv8-FF9900?style=for-the-badge)](https://ultralytics.com/)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)]()
+Proxima is a real-time AI-powered monitoring system that combines computer vision, grid telemetry, and system intelligence into a unified dashboard.
 
-## ✨ Key Features
+Built for smart infrastructure, surveillance, and next-gen environments.
 
-- 🤖 **AI Vision Engine**: Dedicated Python microservice running **YOLOv8** for high-speed, real-time spatial occupancy and object detection (`ai_occupancy_api`).
-- ⚡ **Telemetry & Grid Backend**: A robust Node.js/Express backend serving live endpoints for System Status, Grid Metrics, and System Integrity.
-- 🎨 **Quantum UI/UX**: A hyper-modern React dashboard featuring dynamic elements like the `SmartIsland` indicator, interactive `Sidebar`, and a reactive `QuantumBackground`.
-- 🐳 **Microservice Architecture**: Fully decoupled architecture allowing independent scaling of the AI inference engine, backend data server, and frontend client.
+---
 
-## 🏗️ System Architecture
+## 🚀 What is Proxima?
 
-Proxima utilizes a three-tier microservice architecture to separate heavy AI inference from UI rendering:
+Proxima is not just monitoring.
+
+It is **awareness at scale**.
+
+- It detects occupancy using AI  
+- It tracks system health in real-time  
+- It visualizes infrastructure like a living system  
+
+From smart buildings to industrial setups — Proxima makes systems observable and intelligent.
+
+---
+
+## ✨ Core Features
+
+### 🤖 AI Vision Engine
+- Real-time object detection (YOLOv8)
+- Occupancy tracking
+- Movement insights
+
+### ⚡ Grid Intelligence
+- Power monitoring
+- Network load tracking
+- System health metrics
+
+### 🎨 Futuristic Interface
+- SmartIsland dynamic alerts
+- Quantum animated background
+- Reactive UI components
+
+### 🐳 Microservice Architecture
+- Independent AI service
+- Backend telemetry engine
+- Frontend dashboard
+
+---
+
+## 🏗️ Architecture
 
 ```mermaid
 graph TD
-    A[Camera / Sensor Feed] -->|Image Frames| B(Python AI API - YOLOv8)
-    B -- Occupancy JSON --> C{Node.js Express Backend}
-    D[Grid / Hardware Sensors] -->|Metrics| C
-    C -- REST API / Sockets --> E[React Frontend Dashboard]
-    E --> F[Smart Island UI]
-    E --> G[Integrity & Grid Widgets]
+A[Camera Feed] --> B[AI Engine]
+B --> C[Backend Server]
+D[Sensor Data] --> C
+C --> E[Frontend Dashboard]
+⚙️ Tech Stack
+
+React
+
+Node.js
+
+Python
+
+YOLOv8
+
+Docker
+
+📁 Structure
+proximaproject/
+├── dashboard/
+├── ai_occupancy_api/
+└── docs/
+🚀 Getting Started
+Start AI Engine
+cd ai_occupancy_api
+pip install -r requirements.txt
+python app.py
+Start Backend
+cd dashboard/backend
+npm install
+npm run dev
+Start Frontend
+cd dashboard/frontend
+npm install
+npm start
